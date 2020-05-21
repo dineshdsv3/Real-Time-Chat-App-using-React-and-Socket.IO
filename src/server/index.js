@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-var server = http.createServer(app);
-var io = require('socket.io')(server);
+var server = http.Server(app);
+var io = require('socket.io')(app);
 
 const SocketManager = require('./SocketManager');
 
