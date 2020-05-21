@@ -21,7 +21,7 @@ module.exports = function (socket) {
 		connectedUsers = addUser(connectedUsers, user);
         socket.user = user;
         console.log(io)
-		// io.emit(USER_CONNECTED, connectedUsers);
+		io.emit(USER_CONNECTED, connectedUsers);
 		console.log(connectedUsers);
 	});
 };
