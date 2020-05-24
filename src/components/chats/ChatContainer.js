@@ -8,19 +8,20 @@ class ChatContainer extends React.Component {
         activeChat:null
     }
 
-    setActiveChat = () => {
+    setActiveChat = (activeChat) => {
         this.setState({activeChat})
     }
 
 	render() {
-		const { user, logout } = this.props;
+        const { user, logout } = this.props;
+        const { chats, activeChat } = this.state;
 		return (
 			<div className="container">
 				<SideBar
 					logout={logout}
 					user={user}
 					chats={chats}
-					activeChart={activeChart}
+					activeChat={activeChat}
 					setActiveChat={this.setActiveChat}
 				/>
 			</div>
