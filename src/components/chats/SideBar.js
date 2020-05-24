@@ -1,6 +1,6 @@
 import React from 'react';
 import {FaChevronDown, FaListUl, FaSearch } from 'react-icons/fa'
-import { MdEject, MdKeyboardArrowDown } from 'react-icons/md'
+import { MdEject, MdKeyboardArrowDown,MdMenu } from 'react-icons/md'
 
 class SideBar extends React.Component {
 	render() {
@@ -12,7 +12,7 @@ class SideBar extends React.Component {
 						Our Cool Chat <FaChevronDown />
 					</div>
 					<div className="menu">
-						<p>Menu icon</p>
+						<MdMenu />
 					</div>
 				</div>
 				<div className="search">
