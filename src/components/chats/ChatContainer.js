@@ -13,7 +13,8 @@ class ChatContainer extends React.Component {
 
 	componentDidMount() {
 		const { socket } = this.props;
-		socket.emit(COMMUNITY_CHAT, this.resetChat);
+        socket.emit(COMMUNITY_CHAT, this.resetChat);
+        console.log(socket);
 	}
 
 	resetChat = (chat) => {

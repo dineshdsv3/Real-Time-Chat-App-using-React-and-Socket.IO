@@ -12,8 +12,8 @@ class LoginForm extends React.Component {
         if(isUser) {
             this.setError("UserName already taken")
         } else {
-            this.props.setUser(user)
             this.setState({error:null})
+            this.props.setUser(user)
         }
     }
 

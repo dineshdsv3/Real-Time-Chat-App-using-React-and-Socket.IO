@@ -8,7 +8,7 @@ const socketUrl = 'http://192.168.0.118:3231';
 class Layout extends React.Component {
 	state = {
 		socket: 'null',
-		user: 'null',
+		user: '',
 	};
 
 	componentDidMount() {
