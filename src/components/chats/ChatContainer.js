@@ -3,7 +3,7 @@ import SideBar from './SideBar';
 import ChatHeading from './ChatHeading';
 import Messages from '../messages/Messages';
 import MessageInput from '../messages/MessageInput';
-import { MESSAGE_SENT, TYPING } from '../../Events';
+import { COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING } from '../../Events';
 
 class ChatContainer extends React.Component {
 	state = {
