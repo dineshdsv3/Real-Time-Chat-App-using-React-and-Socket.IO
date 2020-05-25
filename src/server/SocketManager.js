@@ -1,11 +1,27 @@
 const io = require('./index.js').io;
-const { VERIFY_USER, USER_CONNECTED, LOGOUT } = require('../Events');
-const { createUser, createmessage, createChat } = require('../Factories');
+const {
+	VERIFY_USER,
+	USER_CONNECTED,
+	USER_DISCONNECTED,
+	LOGOUT,
+	COMMUNITY_CHAT,
+	MESSAGE_RECIEVED,
+	MESSAGE_SENT,
+	TYPING,
+} = require('../Events');
+
+const { createUser, createMessage, createChat } = require('../Factories');
 
 let connectedUsers = {};
 
+let communityChat = createChat();
+
 module.exports = function (socket) {
 	console.log(`Socket Id is ${socket.id}`);
+
+	let sendMessageToChatFromUser;
+
+	let sendTypingFromUser;
 
 	// Verify User
 	socket.on(VERIFY_USER, (nickname, callback) => {
@@ -19,12 +35,58 @@ module.exports = function (socket) {
 	// User Connected with username
 	socket.on(USER_CONNECTED, (user) => {
 		connectedUsers = addUser(connectedUsers, user);
-        socket.user = user;
-        console.log(io)
+		socket.user = user;
+
+		sendMessageToChatFromUser = sendMessageToChat(user.name);
+		sendTypingFromUser = sendTypingToChat(user.name);
+
+		// console.log(io);
 		io.emit(USER_CONNECTED, connectedUsers);
 		console.log(connectedUsers);
 	});
+
+	//User disconnects
+	socket.on('disconnect', () => {
+		if ('user' in socket) {
+			connectedUsers = removeUser(connectedUsers, socket.user.name);
+
+			io.emit(USER_DISCONNECTED, connectedUsers);
+			console.log('Disconnect', connectedUsers);
+		}
+	});
+
+	//User logsout
+	socket.on(LOGOUT, () => {
+		connectedUsers = removeUser(connectedUsers, socket.user.name);
+		io.emit(USER_DISCONNECTED, connectedUsers);
+		console.log('Disconnect', connectedUsers);
+	});
+
+	//Get Community Chat
+	socket.on(COMMUNITY_CHAT, (callback) => {
+		callback(communityChat);
+	});
+
+	socket.on(MESSAGE_SENT, ({ chatId, message }) => {
+		sendMessageToChatFromUser(chatId, message);
+	});
+
+	socket.on(TYPING, ({ chatId, isTyping }) => {
+		sendTypingFromUser(chatId, isTyping);
+	});
 };
+
+function sendTypingToChat(user) {
+	return (chatId, isTyping) => {
+		io.emit(`${TYPING}-${chatId}`, { user, isTyping });
+	};
+}
+
+function sendMessageToChat(sender) {
+	return (chatId, message) => {
+		io.emit(`${MESSAGE_RECIEVED}-${chatId}`, createMessage({ message, sender }));
+	};
+}
 
 function addUser(userList, user) {
 	let newList = Object.assign({}, userList);
