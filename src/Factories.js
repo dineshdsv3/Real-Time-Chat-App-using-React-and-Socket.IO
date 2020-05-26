@@ -1,6 +1,6 @@
 const { v4: uuid } = require('uuid');
 
-const createUser = ({ name = '' } = {}) => ({ id: uuid(), name });
+const createUser = ({ name = '', socketId = null } = {}) => ({ id: uuid(), name, socketId });
 
 const createMessage = ({ message = '', sender = '' } = {}) => ({
 	id: uuid(),
@@ -22,7 +22,7 @@ const getTime = (date) => {
 };
 
 module.exports = {
-    createUser,
-    createChat,
-    createMessage
-}
+	createUser,
+	createChat,
+	createMessage,
+};

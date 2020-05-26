@@ -3,7 +3,7 @@ import SideBar from './SideBar';
 import ChatHeading from './ChatHeading';
 import Messages from '../messages/Messages';
 import MessageInput from '../messages/MessageInput';
-import { COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING } from '../../Events';
+import { COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING, PRIVATE_MESSAGE } from '../../Events';
 
 class ChatContainer extends React.Component {
 	state = {
@@ -13,8 +13,22 @@ class ChatContainer extends React.Component {
 
 	componentDidMount() {
 		const { socket } = this.props;
-        socket.emit(COMMUNITY_CHAT, this.resetChat);
-        console.log(socket);
+		this.initSocket(socket);
+	}
+
+	initSocket(socket) {
+		const { user } = this.props;
+		socket.emit(COMMUNITY_CHAT, this.resetChat);
+		socket.on(PRIVATE_MESSAGE, this.addChat);
+		socket.on('connect', () => {
+			socket.emit(COMMUNITY_CHAT, this.resetChat);
+		});
+		// socket.emit(PRIVATE_MESSAGE,{receiver: 'Mike', sender: user.name})
+	}
+
+	sendOpenPrivateMessage = (receiver) => {
+		const { socket, user } = this.props;
+		socket.emit(PRIVATE_MESSAGE, { receiver, sender: user.name });
 	}
 
 	resetChat = (chat) => {
@@ -92,6 +106,7 @@ class ChatContainer extends React.Component {
 					chats={chats}
 					activeChat={activeChat}
 					setActiveChat={this.setActiveChat}
+					onSendPrivateMessage={this.sendOpenPrivateMessage}
 				/>
 				<div className="chat-room-container">
 					{activeChat !== null ? (
