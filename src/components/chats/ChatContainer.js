@@ -28,8 +28,9 @@ class ChatContainer extends React.Component {
 
 	sendOpenPrivateMessage = (receiver) => {
 		const { socket, user } = this.props;
-		socket.emit(PRIVATE_MESSAGE, { receiver, sender: user.name });
-	}
+		const { activeChat } = this.state;
+		socket.emit(PRIVATE_MESSAGE, { receiver, sender: user.name, activeChat });
+	};
 
 	resetChat = (chat) => {
 		return this.addChat(chat, true);
