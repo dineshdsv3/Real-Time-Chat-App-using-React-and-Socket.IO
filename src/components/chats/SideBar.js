@@ -14,6 +14,7 @@ class SideBar extends React.Component {
 		const { onSendPrivateMessage } = this.props;
 
 		onSendPrivateMessage(receiver);
+		this.setState({receiver: ''});
 	};
 
 	render() {
