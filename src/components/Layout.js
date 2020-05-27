@@ -4,7 +4,7 @@ import { USER_CONNECTED, LOGOUT } from '../Events';
 import LoginForm from './LoginForm';
 import Chatcontainer from './chats/ChatContainer';
 
-const socketUrl = 'http://192.168.0.118:3231';
+const socketUrl = '/';
 class Layout extends React.Component {
 	state = {
 		socket: 'null',
