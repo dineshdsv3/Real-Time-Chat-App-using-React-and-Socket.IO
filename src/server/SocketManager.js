@@ -38,7 +38,8 @@ module.exports = function (socket) {
 		user.socketId = socket.id;
 		connectedUsers = addUser(connectedUsers, user);
 		socket.user = user;
-
+		// console.log(user);
+		// console.log(socket.user)
 		sendMessageToChatFromUser = sendMessageToChat(user.name);
 		sendTypingFromUser = sendTypingToChat(user.name);
 
@@ -106,6 +107,7 @@ function sendMessageToChat(sender) {
 
 function addUser(userList, user) {
 	let newList = Object.assign({}, userList);
+	console.log(user)
 	newList[user.name] = user;
 	return newList;
 }

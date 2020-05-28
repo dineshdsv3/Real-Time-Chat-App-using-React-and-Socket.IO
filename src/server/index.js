@@ -6,7 +6,7 @@ var io =  module.exports.io = require('socket.io')(server);
 
 const SocketManager = require('./SocketManager');
 
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 
 app.use(express.static(__dirname + '/../../build'))
 
